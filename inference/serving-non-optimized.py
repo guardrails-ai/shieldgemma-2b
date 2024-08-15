@@ -73,15 +73,15 @@ class Model:
         }
 
         contructed_guideline = ""
-        selected_policy_set = INPUT_POLICIES if is_user_prompt else OUTPUT_POLICIES
+        SELECTED_POLICY_SET = INPUT_POLICIES if is_user_prompt else OUTPUT_POLICIES
 
         if is_user_prompt:
             enforce_policies = enforce_policies or ["NO_DANGEROUS_CONTENT", "NO_HARASSMENT", "NO_HATE_SPEECH", "NO_SEXUAL_CONTENT"]
             for policy in enforce_policies:
                 if contructed_guideline == "":
-                    contructed_guideline = selected_policy_set[policy]
+                    contructed_guideline = SELECTED_POLICY_SET[policy]
                 else:
-                    contructed_guideline = contructed_guideline + "\n * " + selected_policy_set[policy]
+                    contructed_guideline = contructed_guideline + "\n* " + SELECTED_POLICY_SET[policy]
                     
                 
         inputs = tokenizer.apply_chat_template(chat, guideline=contructed_guideline, return_tensors="pt", return_dict=True).to(model.device)
@@ -99,9 +99,7 @@ class Model:
         # Convert these logits to a probability with softmax
         probabilities = softmax(selected_logits, dim=0)
 
-        # Return probability of 'Yes'
         score = probabilities[0].item()
-        print(score)  # 0.7310585379600525
 
         print(f"Model: Score: {score}")
 
@@ -188,9 +186,3 @@ def tgi_app():
 
     app.include_router(router)
     return app
-
-
-# @app.local_entrypoint()
-# def main():
-#     model = Model()
-#     model.generate.remote()
