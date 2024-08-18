@@ -20,8 +20,6 @@ class Policies(str, Enum):
     NO_HATE_SPEECH = "NO_HATE_SPEECH"
     NO_SEXUAL_CONTENT = "NO_SEXUAL_CONTENT"
 
-    SUP = "SUP"
-
 
 @register_validator(name="guardrails/shieldgemma_2b", data_type="string")
 class ShieldGemma2B(Validator):
