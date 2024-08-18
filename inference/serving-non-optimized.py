@@ -1,3 +1,4 @@
+from typing import Optional
 import modal
 
 MODEL_ALIAS = "gemma2"
@@ -129,10 +130,26 @@ def tgi_app():
 
     from typing import List
     from pydantic import BaseModel
+    import logging
 
     TOKEN = os.getenv("TOKEN")
     if TOKEN is None:
         raise ValueError("Please set the TOKEN environment variable")
+    
+    # Create a logger
+    logger = logging.getLogger(MODEL_ALIAS)
+    logger.setLevel(logging.DEBUG)
+
+    # Create a handler for logging to stdout
+    stdout_handler = logging.StreamHandler()
+    stdout_handler.setLevel(logging.DEBUG)
+
+    # Create a formatter for the log messages
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    stdout_handler.setFormatter(formatter)
+
+    # Add the handler to the logger
+    logger.addHandler(stdout_handler)
     
     volume.reload()  # ensure we have the latest version of the weights
 
@@ -157,6 +174,24 @@ def tgi_app():
                 detail="Invalid authentication credentials",
             )
         return {"username": "authenticated_user"}
+    
+    @app.exception_handler(Exception)
+    def error_handler(request, exc):
+        status_code = 500
+        detail = "Internal Server Error"
+        logger.exception(exc)
+        if isinstance(exc, fastapi.HTTPException):
+            status_code = exc.status_code
+            detail = exc.detail
+        return fastapi.responses.JSONResponse(
+            status_code=status_code,
+            content={
+                "status": status_code,
+                "response": {
+                    "detail": detail,
+                }
+            },
+        )
 
     router = fastapi.APIRouter(dependencies=[fastapi.Depends(is_authenticated)])
 
@@ -165,22 +200,31 @@ def tgi_app():
         content: str
 
     class ChatClassificationRequestBody(BaseModel):
+        score_threshold: Optional[float] = None
+        policies: Optional[List[str]] = None
         chat: List[ChatMessages]
 
   
     @router.post("/v1/chat/classification")
     async def chat_classification_response(body: ChatClassificationRequestBody):
+        policies = body.policies
+        score_threshold = body.score_threshold or 0.5
         chat = body.model_dump().get("chat",[])
 
         print("Serving request for chat classification...")
         print(f"Chat: {chat}")
-        score = Model().generate.remote(chat)
+        score = Model().generate.remote(chat, enforce_policies=policies)
 
-        is_unsafe = score > 0.5
+        is_unsafe = score > score_threshold
 
         return {
-            "class": "unsafe" if is_unsafe else "safe",
-            "score": score,
+            "status": 200,
+            "response": {
+                "class": "unsafe" if is_unsafe else "safe",
+                "score": score,
+                "applied_policies": policies,
+                "score_threshold": score_threshold
+            }
         }
 
 
