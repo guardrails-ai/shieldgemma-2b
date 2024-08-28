@@ -77,7 +77,7 @@ except Exception as e:
 
 **`__init__(self, on_fail="noop")`**
 <ul>
-Initializes a new instance of the LlamaGuard7B class.
+Initializes a new instance of the ShieldGemma2B class.
 
 **Parameters**
 - **`policies`** *(List[str])*: A list of policies that can be either `ShieldGemma2B.POLICY__NO_DANGEROUS_CONTENT`, `ShieldGemma2B.POLICY__NO_HARASSMENT`, `ShieldGemma2B.POLICY__NO_HATE_SPEECH`, and `ShieldGemma2B.POLICY__NO_SEXUAL_CONTENT`. 
