@@ -24,7 +24,7 @@ The set of policies which can be used are the following which are accessed direc
 - `ShieldGemma2B.POLICY__NO_HATE_SPEECH`
 - `ShieldGemma2B.POLICY__NO_SEXUAL_CONTENT`
 
-> ⚠️ Multiple policies are not officially supported it is recommended to use one policy at a time. Refer to: [https://huggingface.co/google/shieldgemma-2b/discussions/11](https://huggingface.co/google/shieldgemma-2b/discussions/11)
+Multiple policies are not officially supported it is recommended to use one policy at a time. Refer to: [https://huggingface.co/google/shieldgemma-2b/discussions/11](https://huggingface.co/google/shieldgemma-2b/discussions/11)
 
 ### Requirements
 
@@ -77,7 +77,7 @@ except Exception as e:
 
 **`__init__(self, on_fail="noop")`**
 <ul>
-Initializes a new instance of the ValidatorTemplate class.
+Initializes a new instance of the LlamaGuard7B class.
 
 **Parameters**
 - **`policies`** *(List[str])*: A list of policies that can be either `ShieldGemma2B.POLICY__NO_DANGEROUS_CONTENT`, `ShieldGemma2B.POLICY__NO_HARASSMENT`, `ShieldGemma2B.POLICY__NO_HATE_SPEECH`, and `ShieldGemma2B.POLICY__NO_SEXUAL_CONTENT`. 
