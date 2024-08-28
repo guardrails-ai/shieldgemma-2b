@@ -27,7 +27,7 @@ class ShieldGemma2B(Validator):
     | Programmatic fix              | None                              |
 
     Args:
-        policies (List[Policies]): List of Policies enum values to enforce. 
+        policies (List[str]): A list of policies that can be either `ShieldGemma2B.POLICY__NO_DANGEROUS_CONTENT`, `ShieldGemma2B.POLICY__NO_HARASSMENT`, `ShieldGemma2B.POLICY__NO_HATE_SPEECH`, and `ShieldGemma2B.POLICY__NO_SEXUAL_CONTENT`. 
         score_threshold (float): Threshold score for the classification. If the score is above this threshold, the input is considered unsafe.
     """  # noqa
 
