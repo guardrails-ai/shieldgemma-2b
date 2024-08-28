@@ -1,7 +1,6 @@
 
 import json
 from typing import Any, Callable, Dict, List, Optional
-from enum import Enum
 from guardrails.validator_base import ErrorSpan
 
 from guardrails.validator_base import (
@@ -12,13 +11,6 @@ from guardrails.validator_base import (
     register_validator,
 )
 from guardrails.logger import logger
-
-
-class Policies(str, Enum):
-    NO_DANGEROUS_CONTENT = "NO_DANGEROUS_CONTENT"
-    NO_HARASSMENT = "NO_HARASSMENT"
-    NO_HATE_SPEECH = "NO_HATE_SPEECH"
-    NO_SEXUAL_CONTENT = "NO_SEXUAL_CONTENT"
 
 
 @register_validator(name="guardrails/shieldgemma_2b", data_type="string")
@@ -39,27 +31,31 @@ class ShieldGemma2B(Validator):
         score_threshold (float): Threshold score for the classification. If the score is above this threshold, the input is considered unsafe.
     """  # noqa
 
-    Policies = Policies
+    POLICY__NO_DANGEROUS_CONTENT = "NO_DANGEROUS_CONTENT"
+    POLICY__NO_HARASSMENT = "NO_HARASSMENT"
+    POLICY__NO_HATE_SPEECH = "NO_HATE_SPEECH"
+    POLICY__NO_SEXUAL_CONTENT = "NO_SEXUAL_CONTENT"
 
     def __init__(
         self,
-        policies: Optional[List[Policies]] = None,
+        policies: Optional[List[str]] = None,
         validation_method: Optional[str] = "full",
         score_threshold: Optional[float] = None,
         on_fail: Optional[Callable] = None,
+        **kwargs,
     ):
 
         super().__init__(
             on_fail=on_fail,
             validation_method=validation_method,
+            **kwargs,
         )
 
-        try:
-            self._policies = [policy.value for policy in policies] if policies else []
-        except AttributeError as e:
-            raise ValueError("Invalid policies provided. Please provide a list of ShieldGemma2B.Policies enum values.") from e
-        
+        self._policies = policies
         self.score_threshold = score_threshold
+
+        if isinstance(policies, list) and len(policies) == 0:
+            raise ValueError("Policies cannot be empty. Please provide one policy.")
 
         if policies and isinstance(policies, list) and len(policies) > 1:
             logger.warn((
