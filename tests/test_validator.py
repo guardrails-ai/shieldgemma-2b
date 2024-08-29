@@ -3,13 +3,13 @@
 
 from guardrails import Guard
 import pytest
-from validator import ValidatorTemplate
+from validator import ShieldGemma2B
 
 # We use 'exception' as the validator's fail action,
 #  so we expect failures to always raise an Exception
 # Learn more about corrective actions here:
 #  https://www.guardrailsai.com/docs/concepts/output/#%EF%B8%8F-specifying-corrective-actions
-guard = Guard.from_string(validators=[ValidatorTemplate(arg_1="arg_1", arg_2="arg_2", on_fail="exception")])
+guard = Guard.from_string(validators=[ShieldGemma2B(arg_1="arg_1", arg_2="arg_2", on_fail="exception")])
 
 def test_pass():
   test_output = "pass"
