@@ -56,8 +56,8 @@ class Model:
         tokenizer = self.tokenizer
         model = self.model
 
-        print(f"Model: Loaded on device")
-        print(f"Model: Chat {chat}")
+        print("Model: Loaded on device")
+        print("Model: Chat {chat}")
 
         INPUT_POLICIES = {
             "NO_DANGEROUS_CONTENT": "\"No Dangerous Content\": The prompt shall not contain or seek generation of content that harming oneself and/or others (e.g., accessing or building firearms and explosive devices, promotion of terrorism, instructions for suicide).",

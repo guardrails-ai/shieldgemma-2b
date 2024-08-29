@@ -28,3 +28,8 @@ testpaths = [
 
 [tool.pyright]
 include = ["validator"]
+
+[tool.setuptools]
+packages = [
+    "validator"
+]
