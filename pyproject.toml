@@ -29,5 +29,7 @@ testpaths = [
 [tool.pyright]
 include = ["validator"]
 
-[tool.setuptools.packages.find]
-["validator", "inference", "validator.*", "inference.*"]
+[tool.setuptools]
+packages = [
+    "validator"
+]
