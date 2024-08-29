@@ -38,7 +38,7 @@ app = modal.App(
 )
 def download_model(model_name, model_revision, force_download=False):
     from huggingface_hub import snapshot_download
-    from transformers import AutoTokenizer, AutoModelForCausalLM
+    from transformers import AutoTokenizer
     import json
     import os
 
