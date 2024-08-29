@@ -30,4 +30,4 @@ testpaths = [
 include = ["validator"]
 
 [tool.setuptools.packages.find]
-['validator', 'inference', 'validator.*', 'inference.*']
+["validator", "inference", "validator.*", "inference.*"]
