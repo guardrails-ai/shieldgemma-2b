@@ -1,3 +1,3 @@
-from .main import ValidatorTemplate
+from .main import ShieldGemma2B
 
-__all__ = ["ValidatorTemplate"]
+__all__ = ["ShieldGemma2B"]
