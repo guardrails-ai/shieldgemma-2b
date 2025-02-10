@@ -4,7 +4,6 @@
 | --- | --- |
 | Date of development | Aug 15, 2024 |
 | Validator type | Moderation |
-| Blog |  |
 | License | Apache 2 |
 | Input/Output | Output |
 
@@ -12,7 +11,7 @@
 
 ### Intended Use
 
-> ⚠️ This validator is a remote inference only validator so remote inferencing must be enabled during `guardrails configure`
+⚠️ This validator is a remote inference only validator so remote inferencing must be enabled during `guardrails configure`
 
 This validator is for usage for moderating both user prompts and LLM output responses to prevent harmful topics from surfacing in both scenarios. It is based on [ShieldGemma 2B](https://huggingface.co/google/shieldgemma-2b) which is in turn based on [Gemma 2](https://ai.google.dev/gemma#gemma-2). Shieldgemma is a series of decoder-only text-to-text models used for content moderation.
 
